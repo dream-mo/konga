@@ -30,8 +30,13 @@
                       method: "GET",
                       params : query
                   })
+              },
+              findByName: function(name){
+                  return $http({
+                      url : 'kong' + path + '/' + name,
+                      method: "GET"
+                  })
               }
-
           }
       }
     ])
