@@ -36,6 +36,12 @@
                       url : 'kong' + path + '/' + name,
                       method: "GET"
                   })
+              },
+              findTargetsById: function(id){
+                  return $http({
+                      url : 'kong' + path + '/' + id + '/targets',
+                      method: "GET"
+                  })
               }
           }
       }
