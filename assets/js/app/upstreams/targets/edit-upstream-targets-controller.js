@@ -69,6 +69,74 @@
             item.checked = checked
           });
         }
+        $scope.onEditTarget = function(target){
+          var modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'js/app/upstreams/targets/edit-target-modal.html',
+            controller: [
+              '$scope', '$rootScope', '$log', '$uibModalInstance', 'DataModel', 'MessageService', '_upstream',
+              function ($scope, $rootScope, $log, $uibModalInstance, DataModel, MessageService, _upstream) {
+
+
+                var targetModel = new DataModel('kong/upstreams/' + _upstream.id + '/targets', true);
+
+                $scope.upstream = _upstream;
+
+                $scope.item = {
+                  target: target.target,
+                  weight: target.weight,
+                  tags: target.tags ? target.tags : []
+                };
+
+                $scope.onUpdateTargetTagInputKeyPress = function ($event) {
+                  if($event.keyCode === 13) {
+                    if(!$scope.item.tags) $scope.item.tags = [];
+                    $scope.item.tags = $scope.item.tags.concat($event.currentTarget.value);
+                    $event.currentTarget.value = null;
+                  }
+                };
+
+                $scope.close = function () {
+                  $uibModalInstance.dismiss()
+                };
+
+                $scope.submit = function () {
+                  targetModel.update(target.id, $scope.item)
+                      .then(function (resp) {
+                        $log.debug("Update target =>", resp);
+                        MessageService.success("Target update successfully!")
+                        $uibModalInstance.dismiss({
+                          data: resp
+                        })
+                      }, function (err) {
+                        $log.error("Update target error =>", err)
+                        $scope.errors = {}
+                        if (err.data && err.data.body) {
+                          for (var key in err.data.body) {
+                            $scope.errors[key] = err.data.body[key]
+                          }
+                        }
+                      })
+                }
+              }
+            ],
+            controllerAs: '$ctrl',
+            resolve: {
+              _upstream: function () {
+                return $scope.upstream
+              }
+            }
+            //size: 'lg',
+          });
+
+          modalInstance.result.then(function () {
+
+          }, function (data) {
+            if (data && data.data) _fetchData()
+          });
+        };
 
         $scope.onAddTarget = function () {
           var modalInstance = $uibModal.open({
@@ -86,8 +154,16 @@
 
                 $scope.item = {
                   target: '',
-                  weight: 100
-                }
+                  weight: 100,
+                  tags: []
+                };
+                $scope.onAddTargetTagInputKeyPress = function ($event) {
+                  if($event.keyCode === 13) {
+                    if(!$scope.item.tags) $scope.item.tags = [];
+                    $scope.item.tags = $scope.item.tags.concat($event.currentTarget.value);
+                    $event.currentTarget.value = null;
+                  }
+                };
 
                 $scope.close = function () {
                   $uibModalInstance.dismiss()

@@ -1,6 +1,6 @@
 <div class="modal-header success">
     <h4 class="modal-title" id="modal-title">
-        Add new target
+        Edit target
         <a  class="modal-close pull-right" ng-click="close()">
             <i class="mdi mdi-close"></i>
         </a>
@@ -38,7 +38,7 @@
                         </div>
                     </chip-tmpl>
                     <input ng-model-control
-                           data-ng-keypress="onAddTargetTagInputKeyPress($event)"
+                           data-ng-keypress="onUpdateTargetTagInputKeyPress($event)"
                            ng-model="$tag" uib-typeahead="tag for tag in tags | filter:$viewValue | limitTo:10"/>
                 </chips>
                 <p class="help-block">

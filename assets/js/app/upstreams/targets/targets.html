@@ -48,9 +48,8 @@
                         >
                         </i>
                     </th>
-                    <th width="1"></th>
-                    <th width="1"></th>
-                    <th width="1"></th>
+                    <th width="1">TAGS</th>
+                    <th width="4" align="right" colspan="4">OPERATION</th>
                 </tr>
                 <tr dir-paginate="item in items | orderBy:sort.column:sort.direction | filter : filters.searchWord | itemsPerPage: itemsPerPage">
                     <td ng-if="compareKongVersion('0.12.2') >= 0">
@@ -79,7 +78,13 @@
                     </td>
                     <td>{{item.target || "-"}}</td>
                     <td>{{item.weight || "-"}}</td>
-                    <td>{{moment(item.created_at * 1000).format("MMM DD YYYY @h:mm")}}</td>
+                    <td>{{moment(item.created_at * 1000).format("")}}</td>
+                    <td>
+                         <span class="badge badge-tag badge-success badge-inverse" ng-repeat="tag in item.tags">
+                            <i class="mdi mdi-tag"></i>&nbsp;
+                            {{tag}}
+                        </span>
+                    </td>
                     <td>
                         <button type="button" ng-click="setHealth($index,item, true)"
                                 uib-tooltip="Set healthy"
@@ -95,7 +100,13 @@
                         </button>
                     </td>
                     <td>
-                        <button type="button" ng-click="deleteItem($index,item)" class="btn btn-danger btn-link">
+                        <button data-ng-click="onEditTarget(item)" uib-tooltip="Edit target" class="btn btn-warning btn-link">
+                            <i class="mdi mdi-pencil"></i>
+                            edit
+                        </button>
+                    </td>
+                    <td>
+                        <button uib-tooltip="Delete target" type="button" ng-click="deleteItem($index,item)" class="btn btn-danger btn-link">
                             <i class="mdi mdi-delete"></i>
                             Delete
                         </button>
