@@ -5,7 +5,9 @@ COPY . /app
 WORKDIR /app
 
 RUN apk upgrade --update \
-    && apk add bash git ca-certificates \
+    && apk add bash git ca-certificates
+
+RUN npm config set registry https://registry.npm.taobao.org \
     && npm install -g bower \
     && npm --unsafe-perm --production install \
     && apk del git \
