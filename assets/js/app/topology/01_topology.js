@@ -24,7 +24,7 @@
                     name: 'tree1',
                     data: [data],
                     top: '10%',
-                    left: '6%',
+                    left: '10%',
                     bottom: '22%',
                     right: '20%',
                     symbolSize: 10,
@@ -76,7 +76,7 @@
                             backgroundColor: "#1ABB9C",
                             color: "white",
                             fontSize: 15,
-                            width: 180,
+                            width: 240,
                             height: 30,
                             align: "center"
                     };
